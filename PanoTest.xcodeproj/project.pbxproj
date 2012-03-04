@@ -1,0 +1,306 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3B018C8514ED9FBB00D1F955 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B018C8414ED9FBB00D1F955 /* UIKit.framework */; };
+		3B018C8714ED9FBB00D1F955 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B018C8614ED9FBB00D1F955 /* Foundation.framework */; };
+		3B018C8914ED9FBB00D1F955 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B018C8814ED9FBB00D1F955 /* CoreGraphics.framework */; };
+		3B018C8F14ED9FBB00D1F955 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B018C8D14ED9FBB00D1F955 /* InfoPlist.strings */; };
+		3B018C9114ED9FBB00D1F955 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B018C9014ED9FBB00D1F955 /* main.m */; };
+		3B018C9514ED9FBB00D1F955 /* JAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B018C9414ED9FBB00D1F955 /* JAAppDelegate.m */; };
+		3B018C9814ED9FBB00D1F955 /* JAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B018C9714ED9FBB00D1F955 /* JAViewController.m */; };
+		3B018CA314ED9FEC00D1F955 /* JAPanoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B018CA214ED9FEC00D1F955 /* JAPanoView.m */; };
+		3B018CA514EDA3C200D1F955 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B018CA414EDA3C200D1F955 /* QuartzCore.framework */; };
+		3B018CAC14EDB03400D1F955 /* Down_fixed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3B018CA614EDB03400D1F955 /* Down_fixed.jpg */; };
+		3B018CAD14EDB03400D1F955 /* TowerHousepano_b.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3B018CA714EDB03400D1F955 /* TowerHousepano_b.jpg */; };
+		3B018CAE14EDB03400D1F955 /* TowerHousepano_f.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3B018CA814EDB03400D1F955 /* TowerHousepano_f.jpg */; };
+		3B018CAF14EDB03400D1F955 /* TowerHousepano_l.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3B018CA914EDB03400D1F955 /* TowerHousepano_l.jpg */; };
+		3B018CB014EDB03400D1F955 /* TowerHousepano_r.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3B018CAA14EDB03400D1F955 /* TowerHousepano_r.jpg */; };
+		3B018CB114EDB03400D1F955 /* TowerHousepano_u.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3B018CAB14EDB03400D1F955 /* TowerHousepano_u.jpg */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3B018C8014ED9FBB00D1F955 /* PanoTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PanoTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B018C8414ED9FBB00D1F955 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		3B018C8614ED9FBB00D1F955 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		3B018C8814ED9FBB00D1F955 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		3B018C8C14ED9FBB00D1F955 /* PanoTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PanoTest-Info.plist"; sourceTree = "<group>"; };
+		3B018C8E14ED9FBB00D1F955 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3B018C9014ED9FBB00D1F955 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3B018C9214ED9FBB00D1F955 /* PanoTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PanoTest-Prefix.pch"; sourceTree = "<group>"; };
+		3B018C9314ED9FBB00D1F955 /* JAAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JAAppDelegate.h; sourceTree = "<group>"; };
+		3B018C9414ED9FBB00D1F955 /* JAAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JAAppDelegate.m; sourceTree = "<group>"; };
+		3B018C9614ED9FBB00D1F955 /* JAViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JAViewController.h; sourceTree = "<group>"; };
+		3B018C9714ED9FBB00D1F955 /* JAViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JAViewController.m; sourceTree = "<group>"; };
+		3B018CA114ED9FEC00D1F955 /* JAPanoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JAPanoView.h; sourceTree = "<group>"; };
+		3B018CA214ED9FEC00D1F955 /* JAPanoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JAPanoView.m; sourceTree = "<group>"; };
+		3B018CA414EDA3C200D1F955 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		3B018CA614EDB03400D1F955 /* Down_fixed.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Down_fixed.jpg; sourceTree = "<group>"; };
+		3B018CA714EDB03400D1F955 /* TowerHousepano_b.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = TowerHousepano_b.jpg; sourceTree = "<group>"; };
+		3B018CA814EDB03400D1F955 /* TowerHousepano_f.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = TowerHousepano_f.jpg; sourceTree = "<group>"; };
+		3B018CA914EDB03400D1F955 /* TowerHousepano_l.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = TowerHousepano_l.jpg; sourceTree = "<group>"; };
+		3B018CAA14EDB03400D1F955 /* TowerHousepano_r.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = TowerHousepano_r.jpg; sourceTree = "<group>"; };
+		3B018CAB14EDB03400D1F955 /* TowerHousepano_u.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = TowerHousepano_u.jpg; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3B018C7D14ED9FBB00D1F955 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B018CA514EDA3C200D1F955 /* QuartzCore.framework in Frameworks */,
+				3B018C8514ED9FBB00D1F955 /* UIKit.framework in Frameworks */,
+				3B018C8714ED9FBB00D1F955 /* Foundation.framework in Frameworks */,
+				3B018C8914ED9FBB00D1F955 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3B018C7514ED9FBB00D1F955 = {
+			isa = PBXGroup;
+			children = (
+				3B018C8A14ED9FBB00D1F955 /* PanoTest */,
+				3B018C8314ED9FBB00D1F955 /* Frameworks */,
+				3B018C8114ED9FBB00D1F955 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3B018C8114ED9FBB00D1F955 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3B018C8014ED9FBB00D1F955 /* PanoTest.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3B018C8314ED9FBB00D1F955 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3B018CA414EDA3C200D1F955 /* QuartzCore.framework */,
+				3B018C8414ED9FBB00D1F955 /* UIKit.framework */,
+				3B018C8614ED9FBB00D1F955 /* Foundation.framework */,
+				3B018C8814ED9FBB00D1F955 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3B018C8A14ED9FBB00D1F955 /* PanoTest */ = {
+			isa = PBXGroup;
+			children = (
+				3B018C9314ED9FBB00D1F955 /* JAAppDelegate.h */,
+				3B018C9414ED9FBB00D1F955 /* JAAppDelegate.m */,
+				3B018C9614ED9FBB00D1F955 /* JAViewController.h */,
+				3B018C9714ED9FBB00D1F955 /* JAViewController.m */,
+				3B018C8B14ED9FBB00D1F955 /* Supporting Files */,
+				3B018CA114ED9FEC00D1F955 /* JAPanoView.h */,
+				3B018CA214ED9FEC00D1F955 /* JAPanoView.m */,
+			);
+			path = PanoTest;
+			sourceTree = "<group>";
+		};
+		3B018C8B14ED9FBB00D1F955 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3B018CA614EDB03400D1F955 /* Down_fixed.jpg */,
+				3B018CA714EDB03400D1F955 /* TowerHousepano_b.jpg */,
+				3B018CA814EDB03400D1F955 /* TowerHousepano_f.jpg */,
+				3B018CA914EDB03400D1F955 /* TowerHousepano_l.jpg */,
+				3B018CAA14EDB03400D1F955 /* TowerHousepano_r.jpg */,
+				3B018CAB14EDB03400D1F955 /* TowerHousepano_u.jpg */,
+				3B018C8C14ED9FBB00D1F955 /* PanoTest-Info.plist */,
+				3B018C8D14ED9FBB00D1F955 /* InfoPlist.strings */,
+				3B018C9014ED9FBB00D1F955 /* main.m */,
+				3B018C9214ED9FBB00D1F955 /* PanoTest-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3B018C7F14ED9FBB00D1F955 /* PanoTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3B018C9E14ED9FBB00D1F955 /* Build configuration list for PBXNativeTarget "PanoTest" */;
+			buildPhases = (
+				3B018C7C14ED9FBB00D1F955 /* Sources */,
+				3B018C7D14ED9FBB00D1F955 /* Frameworks */,
+				3B018C7E14ED9FBB00D1F955 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PanoTest;
+			productName = PanoTest;
+			productReference = 3B018C8014ED9FBB00D1F955 /* PanoTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3B018C7714ED9FBB00D1F955 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "NG Servicios";
+			};
+			buildConfigurationList = 3B018C7A14ED9FBB00D1F955 /* Build configuration list for PBXProject "PanoTest" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 3B018C7514ED9FBB00D1F955;
+			productRefGroup = 3B018C8114ED9FBB00D1F955 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3B018C7F14ED9FBB00D1F955 /* PanoTest */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3B018C7E14ED9FBB00D1F955 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B018C8F14ED9FBB00D1F955 /* InfoPlist.strings in Resources */,
+				3B018CAC14EDB03400D1F955 /* Down_fixed.jpg in Resources */,
+				3B018CAD14EDB03400D1F955 /* TowerHousepano_b.jpg in Resources */,
+				3B018CAE14EDB03400D1F955 /* TowerHousepano_f.jpg in Resources */,
+				3B018CAF14EDB03400D1F955 /* TowerHousepano_l.jpg in Resources */,
+				3B018CB014EDB03400D1F955 /* TowerHousepano_r.jpg in Resources */,
+				3B018CB114EDB03400D1F955 /* TowerHousepano_u.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3B018C7C14ED9FBB00D1F955 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B018C9114ED9FBB00D1F955 /* main.m in Sources */,
+				3B018C9514ED9FBB00D1F955 /* JAAppDelegate.m in Sources */,
+				3B018C9814ED9FBB00D1F955 /* JAViewController.m in Sources */,
+				3B018CA314ED9FEC00D1F955 /* JAPanoView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		3B018C8D14ED9FBB00D1F955 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3B018C8E14ED9FBB00D1F955 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3B018C9C14ED9FBB00D1F955 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		3B018C9D14ED9FBB00D1F955 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3B018C9F14ED9FBB00D1F955 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PanoTest/PanoTest-Prefix.pch";
+				INFOPLIST_FILE = "PanoTest/PanoTest-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		3B018CA014ED9FBB00D1F955 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PanoTest/PanoTest-Prefix.pch";
+				INFOPLIST_FILE = "PanoTest/PanoTest-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3B018C7A14ED9FBB00D1F955 /* Build configuration list for PBXProject "PanoTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3B018C9C14ED9FBB00D1F955 /* Debug */,
+				3B018C9D14ED9FBB00D1F955 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3B018C9E14ED9FBB00D1F955 /* Build configuration list for PBXNativeTarget "PanoTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3B018C9F14ED9FBB00D1F955 /* Debug */,
+				3B018CA014ED9FBB00D1F955 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3B018C7714ED9FBB00D1F955 /* Project object */;
+}
