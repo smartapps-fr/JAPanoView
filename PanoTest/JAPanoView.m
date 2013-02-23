@@ -325,8 +325,8 @@
 				newVAngle=-_downLimit;
 			}
 		}
-		self.hAngle=newHAngle;
-		self.vAngle=newVAngle;
+		_hAngle=newHAngle;
+		_vAngle=newVAngle;
 		[self render];
 		[gestureRecognizer setTranslation:CGPointZero inView:self];
 	}
@@ -340,7 +340,6 @@
 		gestureRecognizer.state==UIGestureRecognizerStateChanged) {
 		float newFactor=_previousZoomFactor*gestureRecognizer.scale;
         self.zoomFactor=newFactor;
-        [self render];
 	}
 }
 
