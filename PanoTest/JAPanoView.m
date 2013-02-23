@@ -57,10 +57,21 @@
 		zoomFactor=minFactor;
 	}
 	_zoomFactor=(zoomFactor)*_referenceSide;
+    [self render];
 }
 
 -(float)zoomFactor{
 	return (_zoomFactor/_referenceSide);
+}
+
+-(void)setHAngle:(CGFloat)hAngle{
+    _hAngle=hAngle;
+    [self render];
+}
+
+-(void)setVAngle:(CGFloat)vAngle{
+    _vAngle=vAngle;
+    [self render];
 }
 
 - (id)initWithFrame:(CGRect)frame {

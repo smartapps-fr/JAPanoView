@@ -53,6 +53,8 @@
 }
 
 -(void)tapped:(UITapGestureRecognizer *)tapGR{
+    [(JAPanoView*)self.view setHAngle:M_PI_4];
+    [(JAPanoView*)self.view setVAngle:M_PI_4];
     _testPopover=[[UIPopoverController alloc] initWithContentViewController:[[UIViewController alloc] init]];
     [_testPopover presentPopoverFromRect:tapGR.view.frame inView:tapGR.view.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
