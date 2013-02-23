@@ -17,4 +17,16 @@
 
 -(void)setFrontImage:(UIImage *)i1 rightImage:(UIImage *)i2 backImage:(UIImage *)i3 leftImage:(UIImage *)i4 topImage:(UIImage *)i5 bottomImage:(UIImage *)i6;
 
+-(void)addHotspot:(UIView*)hotspotView atHAngle:(CGFloat)hAngle vAngle:(CGFloat)vAngle;
+
+@end
+
+
+@interface UIView (JAPanoViewHotspot)
+
+@property (nonatomic, readonly) JAPanoView *panoView;
+@property (nonatomic) BOOL shouldApplyPerspective;
+
+-(void)removeFromPanoView;
+
 @end

@@ -8,15 +8,29 @@
 
 #import "JAPanoView.h"
 #import <QuartzCore/QuartzCore.h>
+#import <objc/runtime.h>
+
+
+@interface UIView (JAPanoViewHotspotPrivate)
+
+@property (nonatomic, assign) JAPanoView *panoView;
+@property (nonatomic) CGFloat hAngle;
+@property (nonatomic) CGFloat vAngle;
+
+@end
 
 @interface JAPanoView(){
     UIImageView *_image1,*_image2,*_image3,*_image4,*_image5,*_image6;
 	CGFloat _referenceSide;
 	CGFloat _previousZoomFactor;
+    NSMutableArray *_hotspots;
+    UIPanGestureRecognizer *_panGestureRecognizer;
+    UIPinchGestureRecognizer *_pinchGestureRecognizer;
 }
 
 -(void)defaultValues;
 -(void)render;
+-(void)removeHotspot:(UIView*)hotspot;
 
 @end
 
@@ -67,6 +81,7 @@
 }
 
 -(void)defaultValues{
+    _hotspots=[NSMutableArray array];
 	if (self.bounds.size.width>self.bounds.size.height) {
 		_referenceSide=self.bounds.size.width/2;
 	}else {
@@ -112,8 +127,10 @@
 	self.userInteractionEnabled=YES;
 	UIPanGestureRecognizer *panGR=[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPan:)];
 	[self addGestureRecognizer:panGR];
+    _panGestureRecognizer=panGR;
 	UIPinchGestureRecognizer *pinchGR=[[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(didPinch:)];
 	[self addGestureRecognizer:pinchGR];
+    _pinchGestureRecognizer=pinchGR;    
 }
 
 -(void)setFrontImage:(UIImage *)i1 rightImage:(UIImage *)i2 backImage:(UIImage *)i3 leftImage:(UIImage *)i4 topImage:(UIImage *)i5 bottomImage:(UIImage *)i6{
@@ -128,10 +145,6 @@
 -(void)render{
 	
 	CATransform3D transform3D = CATransform3DIdentity;
-    transform3D.m34 = 1 / -_zoomFactor;
-	transform3D=CATransform3DTranslate(transform3D, -_referenceSide*cosf(_hAngle), 0, _referenceSide*sinf(_hAngle));
-	transform3D=CATransform3DRotate(transform3D, (M_PI/2)+_hAngle, 0, 1, 0);
-	_image1.layer.transform=CATransform3DRotate(transform3D, _vAngle, cosf((M_PI/2)+_hAngle), 0, sinf((M_PI/2)+_hAngle));
 	
 	float tempHAngle=_hAngle;
 	float tempVAngle=_vAngle;
@@ -206,6 +219,40 @@
 	
 	transform3D=CATransform3DRotate(transform3D, tempVAngle, 1,0,0);
 	_image6.layer.transform=CATransform3DRotate(transform3D, -tempHAngle, 0, 0, 1);
+    
+    CGFloat hotspotReference=_referenceSide;
+    for (UIView *hotspot in _hotspots) {
+        tempHAngle=hotspot.hAngle;
+        tempVAngle=hotspot.vAngle;
+        
+        CGFloat x=sinf(tempHAngle)*cosf(tempVAngle);
+        CGFloat y=sinf(tempVAngle);
+        CGFloat z=cosf(tempVAngle)*cosf(tempHAngle);
+        
+        CGPoint transformedPoint=CGPointApplyAffineTransform(CGPointMake(x, z), CGAffineTransformMakeRotation(_hAngle));
+        x=transformedPoint.x;
+        z=transformedPoint.y;
+        transformedPoint=CGPointApplyAffineTransform(CGPointMake(z, y), CGAffineTransformMakeRotation(-_vAngle));
+        y=transformedPoint.y;
+        z=transformedPoint.x;
+        
+        transform3D = CATransform3DIdentity;
+        transform3D.m34 = 1 / -_zoomFactor;
+        transform3D=CATransform3DTranslate(transform3D,
+                                           hotspotReference*x,
+                                           -(hotspotReference*y),
+                                           -((hotspotReference)*z-_zoomFactor)
+                                           );
+        if (hotspot.shouldApplyPerspective) {
+            transform3D=CATransform3DRotate(transform3D, _hAngle, 0, 1, 0);
+            transform3D=CATransform3DRotate(transform3D, _vAngle, cosf(_hAngle), 0, sinf(_hAngle));
+            transform3D=CATransform3DRotate(transform3D, -hotspot.hAngle, 0, 1, 0);
+            transform3D=CATransform3DRotate(transform3D, -hotspot.vAngle, 1, 0, 0);
+        }
+        
+        
+        hotspot.layer.transform=transform3D;
+    }
 }
 
 -(void)layoutSubviews{
@@ -233,6 +280,9 @@
 	_image4.center=centerPoint;
 	_image5.center=centerPoint;
 	_image6.center=centerPoint;
+    for (UIView *hotspot in _hotspots) {
+        hotspot.center=centerPoint;
+    }
 	[self render];
 }
 
@@ -283,6 +333,27 @@
 	}
 }
 
+#pragma mark hotspot management
+
+-(void)addHotspot:(UIView*)hotspotView atHAngle:(CGFloat)hAngle vAngle:(CGFloat)vAngle{
+    if (hotspotView.panoView!=nil) {
+        [hotspotView removeFromPanoView];
+    }
+    hotspotView.panoView=self;
+    hotspotView.hAngle=hAngle;
+    hotspotView.vAngle=vAngle;
+    [_hotspots addObject:hotspotView];
+    [self addSubview:hotspotView];
+}
+
+-(void)removeHotspot:(UIView *)hotspot{
+    if (hotspot.panoView==self) {
+        [hotspot removeFromSuperview];
+        [_hotspots removeObject:hotspot];
+        hotspot.panoView=nil;
+    }
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -291,5 +362,67 @@
     // Drawing code
 }
 */
+
+@end
+
+
+static char kUIViewHotSpotPanoViewObjectKey;
+static char kUIViewHotSpotShouldApplyPerspectiveObjectKey;
+
+@implementation UIView (JAPanoViewHotspot)
+
+@dynamic panoView;
+@dynamic shouldApplyPerspective;
+
+-(void)removeFromPanoView{
+    if (self.panoView) {
+        [self.panoView removeHotspot:self];
+    }
+}
+
+-(JAPanoView*)panoView{
+    return (JAPanoView *)objc_getAssociatedObject(self, &kUIViewHotSpotPanoViewObjectKey);
+}
+
+-(void)setShouldApplyPerspective:(BOOL)shouldApplyPerspective{
+    objc_setAssociatedObject(self, &kUIViewHotSpotShouldApplyPerspectiveObjectKey, @(shouldApplyPerspective), OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+-(BOOL)shouldApplyPerspective{
+    NSNumber *value=(NSNumber *)objc_getAssociatedObject(self, &kUIViewHotSpotShouldApplyPerspectiveObjectKey);
+    return value?[value boolValue]:YES;
+}
+
+@end
+
+
+static char kUIViewHotSpotHAngleObjectKey;
+static char kUIViewHotSpotVAngleObjectKey;
+
+@implementation UIView (JAPanoViewHotspotPrivate)
+
+@dynamic panoView;
+@dynamic hAngle;
+@dynamic vAngle;
+
+-(void)setPanoView:(JAPanoView *)panoView{
+    objc_setAssociatedObject(self, &kUIViewHotSpotPanoViewObjectKey, panoView, OBJC_ASSOCIATION_ASSIGN);
+}
+
+-(void)setHAngle:(CGFloat)hAngle{
+    objc_setAssociatedObject(self, &kUIViewHotSpotHAngleObjectKey, @(hAngle), OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+-(void)setVAngle:(CGFloat)vAngle{
+    objc_setAssociatedObject(self, &kUIViewHotSpotVAngleObjectKey, @(vAngle), OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+-(CGFloat)hAngle{
+    return [(NSNumber *)objc_getAssociatedObject(self, &kUIViewHotSpotHAngleObjectKey) floatValue];
+}
+
+-(CGFloat)vAngle{
+    return [(NSNumber *)objc_getAssociatedObject(self, &kUIViewHotSpotVAngleObjectKey) floatValue];
+}
 
 @end
