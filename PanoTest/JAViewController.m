@@ -45,6 +45,7 @@
     [hotspot3 setTitle:@"clouds" forState:UIControlStateNormal];
     [hotspot3 setFrame:CGRectMake(0, 0, 100, 30)];
     hotspot3.shouldApplyPerspective=NO;
+    [hotspot3 addTarget:self action:@selector(centerClouds:) forControlEvents:UIControlEventTouchUpInside];
     [panoView addHotspot:hotspot3 atHAngle:-M_PI_2 vAngle:M_PI_4];
 
     
@@ -53,10 +54,13 @@
 }
 
 -(void)tapped:(UITapGestureRecognizer *)tapGR{
-    [(JAPanoView*)self.view setHAngle:M_PI_4];
-    [(JAPanoView*)self.view setVAngle:M_PI_4];
     _testPopover=[[UIPopoverController alloc] initWithContentViewController:[[UIViewController alloc] init]];
     [_testPopover presentPopoverFromRect:tapGR.view.frame inView:tapGR.view.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+-(void)centerClouds:(id)sender{
+    [(JAPanoView*)self.view setHAngle:-M_PI_2];
+    [(JAPanoView*)self.view setVAngle:M_PI_4];
 }
 
 
