@@ -26,6 +26,13 @@
     NSMutableArray *_hotspots;
     UIPanGestureRecognizer *_panGestureRecognizer;
     UIPinchGestureRecognizer *_pinchGestureRecognizer;
+    //delegate
+    BOOL _delegateDidPan;
+    BOOL _delegateDidZoom;
+    BOOL _delegateBeginPan;
+    BOOL _delegateBeginZoom;
+    BOOL _delegateEndPan;
+    BOOL _delegateEndZoom;
 }
 
 -(void)defaultValues;
@@ -72,6 +79,16 @@
 -(void)setVAngle:(CGFloat)vAngle{
     _vAngle=vAngle;
     [self render];
+}
+
+-(void)setDelegate:(id<JAPanoViewDelegate>)delegate{
+    _delegate=delegate;
+    _delegateDidPan=[_delegate respondsToSelector:@selector(panoViewDidPan:)];
+    _delegateDidZoom=[_delegate respondsToSelector:@selector(panoViewDidZoom:)];
+    _delegateBeginPan=[_delegate respondsToSelector:@selector(panoViewWillBeginPanning:)];
+    _delegateBeginZoom=[_delegate respondsToSelector:@selector(panoViewWillBeginZooming:)];
+    _delegateEndPan=[_delegate respondsToSelector:@selector(panoViewDidEndPanning:)];
+    _delegateEndZoom=[_delegate respondsToSelector:@selector(panoViewDidEndZooming:)];
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -300,6 +317,11 @@
 #pragma mark GestureRecognizers
 
 -(void)didPan:(UIPanGestureRecognizer *)gestureRecognizer{
+    if (gestureRecognizer.state==UIGestureRecognizerStateBegan) {
+        if (_delegate && _delegateBeginPan) {
+            [_delegate panoViewWillBeginPanning:self];
+        }
+	}
 	if (gestureRecognizer.state==UIGestureRecognizerStateBegan ||
 		gestureRecognizer.state==UIGestureRecognizerStateChanged) {
 		CGPoint translation=[gestureRecognizer translationInView:self];
@@ -329,17 +351,36 @@
 		_vAngle=newVAngle;
 		[self render];
 		[gestureRecognizer setTranslation:CGPointZero inView:self];
+        if (_delegate && _delegateDidPan) {
+            [_delegate panoViewDidPan:self];
+        }
+	}
+    if (gestureRecognizer.state==UIGestureRecognizerStateEnded) {
+        if (_delegate && _delegateEndPan) {
+            [_delegate panoViewDidEndPanning:self];
+        }
 	}
 }
 
 -(void)didPinch:(UIPinchGestureRecognizer *)gestureRecognizer{
 	if (gestureRecognizer.state==UIGestureRecognizerStateBegan) {
 		_previousZoomFactor=self.zoomFactor;
+        if (_delegate && _delegateBeginZoom) {
+            [_delegate panoViewWillBeginZooming:self];
+        }
 	}
 	if (gestureRecognizer.state==UIGestureRecognizerStateBegan ||
 		gestureRecognizer.state==UIGestureRecognizerStateChanged) {
 		float newFactor=_previousZoomFactor*gestureRecognizer.scale;
         self.zoomFactor=newFactor;
+        if (_delegate && _delegateDidZoom) {
+            [_delegate panoViewDidZoom:self];
+        }
+	}
+    if (gestureRecognizer.state==UIGestureRecognizerStateEnded) {
+        if (_delegate && _delegateEndZoom) {
+            [_delegate panoViewDidEndZooming:self];
+        }
 	}
 }
 

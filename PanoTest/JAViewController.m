@@ -10,7 +10,7 @@
 #import "JAPanoView.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface JAViewController (){
+@interface JAViewController ()<JAPanoViewDelegate>{
     UIPopoverController *_testPopover;
 }
 
@@ -27,6 +27,7 @@
 -(void)loadView{
     JAPanoView *panoView=[[JAPanoView alloc] initWithFrame:CGRectMake(0, 0, 768, 1024)];
     self.view=panoView;
+    panoView.delegate=self;
     [panoView setFrontImage:[UIImage imageNamed:@"TowerHousepano_f.jpg"] rightImage:[UIImage imageNamed:@"TowerHousepano_r.jpg"] backImage:[UIImage imageNamed:@"TowerHousepano_b.jpg"] leftImage:[UIImage imageNamed:@"TowerHousepano_l.jpg"] topImage:[UIImage imageNamed:@"TowerHousepano_u.jpg"] bottomImage:[UIImage imageNamed:@"Down_fixed.jpg"]];
     
     UILabel *hotspot1=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 25)];
@@ -103,6 +104,16 @@
 {
     // Return YES for supported orientations
     return YES;
+}
+
+#pragma mark JAPanoViewDelegate
+
+-(void)panoViewDidPan:(JAPanoView *)panoView{
+    NSLog(@"didPan");
+}
+
+-(void)panoViewDidEndPanning:(JAPanoView *)panoView{
+    NSLog(@"didEndPanning");
 }
 
 @end
