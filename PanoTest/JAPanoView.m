@@ -81,6 +81,22 @@
     [self render];
 }
 
+-(void)setPanEnabled:(BOOL)panEnabled{
+    _panGestureRecognizer.enabled=panEnabled;
+}
+
+-(BOOL)isPanEnabled{
+    return _panGestureRecognizer.enabled;
+}
+
+-(void)setZoomEnabled:(BOOL)zoomEnabled{
+    _pinchGestureRecognizer.enabled=zoomEnabled;
+}
+
+-(BOOL)isZoomEnabled{
+    return _pinchGestureRecognizer.enabled;
+}
+
 -(void)setDelegate:(id<JAPanoViewDelegate>)delegate{
     _delegate=delegate;
     _delegateDidPan=[_delegate respondsToSelector:@selector(panoViewDidPan:)];
@@ -150,7 +166,7 @@
 	_rightLimit=0;
 	_upLimit=M_PI_2;
 	_downLimit=M_PI_2;
-	_minZoom=5;
+	_minZoom=0;
 	_maxZoom=100;
 	self.userInteractionEnabled=YES;
 	UIPanGestureRecognizer *panGR=[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPan:)];

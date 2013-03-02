@@ -12,10 +12,13 @@
 
 @interface JAPanoView : UIView
 
-@property (nonatomic) CGFloat zoomFactor;
-@property (nonatomic) CGFloat hAngle, vAngle;
+@property (nonatomic) CGFloat zoomFactor; // from 0 to 100; default value: 1
+@property (nonatomic) CGFloat hAngle; // azimuth angle in radians; from 0 to 2*PI; default value: 0 
+@property (nonatomic) CGFloat vAngle; // elavation angle in radians; from -(PI/2) to (PI/2); default value: 0
 @property (nonatomic) CGFloat leftLimit, rightLimit, upLimit, downLimit; // angle limits
-@property (nonatomic) CGFloat minZoom, maxZoom; // zoom limits
+@property (nonatomic) CGFloat minZoom, maxZoom; // zoom limits; default values: min 0, max 100
+@property (nonatomic, getter = isPanEnabled) BOOL panEnabled;
+@property (nonatomic, getter = isZoomEnabled) BOOL zoomEnabled;
 @property (nonatomic, weak) id<JAPanoViewDelegate> delegate;
 
 -(void)setFrontImage:(UIImage *)i1 rightImage:(UIImage *)i2 backImage:(UIImage *)i3 leftImage:(UIImage *)i4 topImage:(UIImage *)i5 bottomImage:(UIImage *)i6;
