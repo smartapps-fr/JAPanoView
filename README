@@ -1,6 +1,7 @@
 JAPanoView: open source panorama viewer
 
 JAPanoView is a UIView subclass that renders 360-180 degree panoramic views created from cubic panoramic images with interactive panning and zooming. You can add any UIView as a hotspot into JAPanoView.
+Watch a video: http://www.youtube.com/watch?v=8g0LcuNzzNM
 
 JAPanoView source code is distributed under Apache license. More info at http://www.apache.org/licenses/LICENSE-2.0.html
 Sample images are from http://www.remedypanoramic.com/ and © Remedy Panoramic Design 2010. Included with the permission of the copyright holder.
