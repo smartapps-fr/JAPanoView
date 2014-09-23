@@ -10,7 +10,7 @@
 #import "JAPanoView.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface JAViewController ()<JAPanoViewDelegate>{
+@interface JAViewController () <JAPanoViewDelegate> {
     UIPopoverController *_testPopover;
 }
 
@@ -18,13 +18,7 @@
 
 @implementation JAViewController
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
-}
-
--(void)loadView{
+- (void)loadView {
     JAPanoView *panoView=[[JAPanoView alloc] initWithFrame:CGRectMake(0, 0, 768, 1024)];
     self.view=panoView;
     panoView.delegate=self;
@@ -54,65 +48,30 @@
     [hotspot2 addGestureRecognizer:tapgr];
 }
 
--(void)tapped:(UITapGestureRecognizer *)tapGR{
+- (void)tapped:(UITapGestureRecognizer *)tapGR {
     _testPopover=[[UIPopoverController alloc] initWithContentViewController:[[UIViewController alloc] init]];
     [_testPopover presentPopoverFromRect:tapGR.view.frame inView:tapGR.view.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
--(void)centerClouds:(id)sender{
+- (void)centerClouds:(id)sender {
     [(JAPanoView*)self.view setHAngle:-M_PI_2];
     [(JAPanoView*)self.view setVAngle:M_PI_4];
 }
 
-
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
     return YES;
 }
 
 #pragma mark JAPanoViewDelegate
 
--(void)panoViewDidPan:(JAPanoView *)panoView{
+- (void)panoViewDidPan:(JAPanoView *)panoView {
     NSLog(@"didPan");
 }
 
--(void)panoViewDidEndPanning:(JAPanoView *)panoView{
+- (void)panoViewDidEndPanning:(JAPanoView *)panoView {
     NSLog(@"didEndPanning");
 }
 

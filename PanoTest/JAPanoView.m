@@ -19,7 +19,7 @@
 
 @end
 
-@interface JAPanoView(){
+@interface JAPanoView() {
     UIImageView *_image1,*_image2,*_image3,*_image4,*_image5,*_image6;
 	CGFloat _referenceSide;
 	CGFloat _previousZoomFactor;
@@ -35,9 +35,9 @@
     BOOL _delegateEndZoom;
 }
 
--(void)defaultValues;
--(void)render;
--(void)removeHotspot:(UIView*)hotspot;
+- (void)defaultValues;
+- (void)render;
+- (void)removeHotspot:(UIView*)hotspot;
 
 @end
 
@@ -53,39 +53,39 @@
 @synthesize minZoom=_minZoom;
 @synthesize maxZoom=_maxZoom;
 
--(void)setZoomFactor:(CGFloat)zoomFactor{
+- (void)setZoomFactor:(CGFloat)zoomFactor {
 	//a limit of 0 gets a factor of 0,5
 	//a limit of 100 gets a factor of 4
 	CGFloat minFactor=(_minZoom*3.5/100.0)+0.5;
 	CGFloat maxFactor=(_maxZoom*3.5/100.0)+0.5;
 	if (zoomFactor>maxFactor) {
 		zoomFactor=maxFactor;
-	}else if (zoomFactor<minFactor) {
+	} else if (zoomFactor<minFactor) {
 		zoomFactor=minFactor;
 	}
 	_zoomFactor=(zoomFactor)*_referenceSide;
     [self render];
 }
 
--(CGFloat)zoomFactor{
+- (CGFloat)zoomFactor {
 	return (_zoomFactor/_referenceSide);
 }
 
--(void)setHAngle:(CGFloat)hAngle{
+- (void)setHAngle:(CGFloat)hAngle {
     _hAngle=hAngle;
     [self render];
 }
 
--(void)setVAngle:(CGFloat)vAngle{
+- (void)setVAngle:(CGFloat)vAngle {
     _vAngle=vAngle;
     [self render];
 }
 
--(void)setPanEnabled:(BOOL)panEnabled{
+- (void)setPanEnabled:(BOOL)panEnabled {
     _panGestureRecognizer.enabled=panEnabled;
 }
 
--(BOOL)isPanEnabled{
+- (BOOL)isPanEnabled {
     return _panGestureRecognizer.enabled;
 }
 
@@ -93,11 +93,11 @@
     _pinchGestureRecognizer.enabled=zoomEnabled;
 }
 
--(BOOL)isZoomEnabled{
+- (BOOL)isZoomEnabled {
     return _pinchGestureRecognizer.enabled;
 }
 
--(void)setDelegate:(id<JAPanoViewDelegate>)delegate{
+- (void)setDelegate:(id<JAPanoViewDelegate>)delegate {
     _delegate=delegate;
     _delegateDidPan=[_delegate respondsToSelector:@selector(panoViewDidPan:)];
     _delegateDidZoom=[_delegate respondsToSelector:@selector(panoViewDidZoom:)];
@@ -116,7 +116,7 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder{
+- (id)initWithCoder:(NSCoder *)aDecoder {
     self=[super initWithCoder:aDecoder];
 	if (self) {
 		[self defaultValues];
@@ -124,11 +124,11 @@
 	return self;
 }
 
--(void)defaultValues{
+- (void)defaultValues {
     _hotspots=[NSMutableArray array];
 	if (self.bounds.size.width>self.bounds.size.height) {
 		_referenceSide=self.bounds.size.width/2;
-	}else {
+	} else {
 		_referenceSide=self.bounds.size.height/2;
 	}
 	CGRect rect = CGRectMake(0, 0, _referenceSide*2, _referenceSide*2);
@@ -177,7 +177,7 @@
     _pinchGestureRecognizer=pinchGR;    
 }
 
--(void)setFrontImage:(UIImage *)i1 rightImage:(UIImage *)i2 backImage:(UIImage *)i3 leftImage:(UIImage *)i4 topImage:(UIImage *)i5 bottomImage:(UIImage *)i6{
+- (void)setFrontImage:(UIImage *)i1 rightImage:(UIImage *)i2 backImage:(UIImage *)i3 leftImage:(UIImage *)i4 topImage:(UIImage *)i5 bottomImage:(UIImage *)i6 {
 	_image1.image=i1;
 	_image2.image=i2;
 	_image3.image=i3;
@@ -186,7 +186,7 @@
 	_image6.image=i6;
 }
 
--(void)render{
+- (void)render {
 	
 	CATransform3D transform3D = CATransform3DIdentity;
 	
@@ -299,7 +299,7 @@
     }
 }
 
--(void)layoutSubviews{
+- (void)layoutSubviews {
 	CGFloat tempZoomFactor=self.zoomFactor;
 	if (self.bounds.size.width>self.bounds.size.height) {
 		_referenceSide=self.bounds.size.width/2;
@@ -332,7 +332,7 @@
 
 #pragma mark GestureRecognizers
 
--(void)didPan:(UIPanGestureRecognizer *)gestureRecognizer{
+- (void)didPan:(UIPanGestureRecognizer *)gestureRecognizer {
     if (gestureRecognizer.state==UIGestureRecognizerStateBegan) {
         if (_delegate && _delegateBeginPan) {
             [_delegate panoViewWillBeginPanning:self];
@@ -378,7 +378,7 @@
 	}
 }
 
--(void)didPinch:(UIPinchGestureRecognizer *)gestureRecognizer{
+- (void)didPinch:(UIPinchGestureRecognizer *)gestureRecognizer {
 	if (gestureRecognizer.state==UIGestureRecognizerStateBegan) {
 		_previousZoomFactor=self.zoomFactor;
         if (_delegate && _delegateBeginZoom) {
@@ -402,7 +402,7 @@
 
 #pragma mark hotspot management
 
--(void)addHotspot:(UIView*)hotspotView atHAngle:(CGFloat)hAngle vAngle:(CGFloat)vAngle{
+- (void)addHotspot:(UIView*)hotspotView atHAngle:(CGFloat)hAngle vAngle:(CGFloat)vAngle {
     if (hotspotView.panoView!=nil) {
         [hotspotView removeFromPanoView];
     }
@@ -413,7 +413,7 @@
     [self addSubview:hotspotView];
 }
 
--(void)removeHotspot:(UIView *)hotspot{
+- (void)removeHotspot:(UIView *)hotspot {
     if (hotspot.panoView==self) {
         [hotspot removeFromSuperview];
         [_hotspots removeObject:hotspot];
@@ -441,21 +441,21 @@ static char kUIViewHotSpotShouldApplyPerspectiveObjectKey;
 @dynamic panoView;
 @dynamic shouldApplyPerspective;
 
--(void)removeFromPanoView{
+- (void)removeFromPanoView {
     if (self.panoView) {
         [self.panoView removeHotspot:self];
     }
 }
 
--(JAPanoView*)panoView{
+- (JAPanoView*)panoView {
     return (JAPanoView *)objc_getAssociatedObject(self, &kUIViewHotSpotPanoViewObjectKey);
 }
 
--(void)setShouldApplyPerspective:(BOOL)shouldApplyPerspective{
+- (void)setShouldApplyPerspective:(BOOL)shouldApplyPerspective {
     objc_setAssociatedObject(self, &kUIViewHotSpotShouldApplyPerspectiveObjectKey, @(shouldApplyPerspective), OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
--(BOOL)shouldApplyPerspective{
+- (BOOL)shouldApplyPerspective {
     NSNumber *value=(NSNumber *)objc_getAssociatedObject(self, &kUIViewHotSpotShouldApplyPerspectiveObjectKey);
     return value?[value boolValue]:YES;
 }
@@ -472,23 +472,23 @@ static char kUIViewHotSpotVAngleObjectKey;
 @dynamic hAngle;
 @dynamic vAngle;
 
--(void)setPanoView:(JAPanoView *)panoView{
+- (void)setPanoView:(JAPanoView *)panoView {
     objc_setAssociatedObject(self, &kUIViewHotSpotPanoViewObjectKey, panoView, OBJC_ASSOCIATION_ASSIGN);
 }
 
--(void)setHAngle:(CGFloat)hAngle{
+- (void)setHAngle:(CGFloat)hAngle {
     objc_setAssociatedObject(self, &kUIViewHotSpotHAngleObjectKey, @(hAngle), OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
--(void)setVAngle:(CGFloat)vAngle{
+- (void)setVAngle:(CGFloat)vAngle {
     objc_setAssociatedObject(self, &kUIViewHotSpotVAngleObjectKey, @(vAngle), OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
--(CGFloat)hAngle{
+- (CGFloat)hAngle {
     return [(NSNumber *)objc_getAssociatedObject(self, &kUIViewHotSpotHAngleObjectKey) floatValue];
 }
 
--(CGFloat)vAngle{
+- (CGFloat)vAngle {
     return [(NSNumber *)objc_getAssociatedObject(self, &kUIViewHotSpotVAngleObjectKey) floatValue];
 }
 
