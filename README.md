@@ -33,8 +33,13 @@ Latest version was tested using iOS SDK 8.0
 Creating a panoramic view:
 
 ```objc
-JAPanoView *panoView=[[JAPanoView alloc] initWithFrame:self.view.bounds];
-[panoView setFrontImage:[UIImage imageNamed:@"TowerHousepano_f.jpg"] rightImage:[UIImage imageNamed:@"TowerHousepano_r.jpg"] backImage:[UIImage imageNamed:@"TowerHousepano_b.jpg"] leftImage:[UIImage  imageNamed:@"TowerHousepano_l.jpg"] topImage:[UIImage imageNamed:@"TowerHousepano_u.jpg"] bottomImage:[UIImage imageNamed:@"Down_fixed.jpg"]];
+JAPanoView *panoView = [[JAPanoView alloc] initWithFrame:self.view.bounds];
+[panoView setFrontImage:[UIImage imageNamed:@"TowerHousepano_f.jpg"]
+             rightImage:[UIImage imageNamed:@"TowerHousepano_r.jpg"]
+              backImage:[UIImage imageNamed:@"TowerHousepano_b.jpg"]
+              leftImage:[UIImage imageNamed:@"TowerHousepano_l.jpg"]
+               topImage:[UIImage imageNamed:@"TowerHousepano_u.jpg"]
+            bottomImage:[UIImage imageNamed:@"Down_fixed.jpg"]];
 [self.view addSubview:panoView];`
 ```
 
@@ -45,7 +50,10 @@ Instantiate any UIView subclass and add it as a hotspot with the method `addHots
 Since any UIView can be a hotspot, you can add any UIControl or add any UIGestureRecognizer to your hotspot and make it fully user interactive. You can also take advantage of the convertPoint/Rect:from/toView: UIView methods and show popovers from a hotspot as seen in the demo project:
 
 ```objc
-[popover presentPopoverFromRect:hotspot.frame inView:hotspot.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+[popover presentPopoverFromRect:hotspot.frame
+                         inView:hotspot.superview
+       permittedArrowDirections:UIPopoverArrowDirectionAny
+                       animated:YES];
 ```
 
 There's also a property for UIView: shouldApplyPerspective. It indicates if the hotspot should be rendered always parallel to the screen (`shouldApplyPerspective==NO`) or perpendicular to the point-of-view/hotspot axis (`shouldApplyPerspective==YES`; default value).
