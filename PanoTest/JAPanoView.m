@@ -53,11 +53,11 @@
 @synthesize minZoom=_minZoom;
 @synthesize maxZoom=_maxZoom;
 
--(void)setZoomFactor:(float)zoomFactor{
+-(void)setZoomFactor:(CGFloat)zoomFactor{
 	//a limit of 0 gets a factor of 0,5
 	//a limit of 100 gets a factor of 4
-	float minFactor=(_minZoom*3.5/100.0)+0.5;
-	float maxFactor=(_maxZoom*3.5/100.0)+0.5;
+	CGFloat minFactor=(_minZoom*3.5/100.0)+0.5;
+	CGFloat maxFactor=(_maxZoom*3.5/100.0)+0.5;
 	if (zoomFactor>maxFactor) {
 		zoomFactor=maxFactor;
 	}else if (zoomFactor<minFactor) {
@@ -67,7 +67,7 @@
     [self render];
 }
 
--(float)zoomFactor{
+-(CGFloat)zoomFactor{
 	return (_zoomFactor/_referenceSide);
 }
 
@@ -190,8 +190,8 @@
 	
 	CATransform3D transform3D = CATransform3DIdentity;
 	
-	float tempHAngle=_hAngle;
-	float tempVAngle=_vAngle;
+	CGFloat tempHAngle=_hAngle;
+	CGFloat tempVAngle=_vAngle;
 	transform3D = CATransform3DIdentity;
     transform3D.m34 = 1 / -_zoomFactor;
 	transform3D=CATransform3DTranslate(transform3D,
@@ -300,7 +300,7 @@
 }
 
 -(void)layoutSubviews{
-	float tempZoomFactor=self.zoomFactor;
+	CGFloat tempZoomFactor=self.zoomFactor;
 	if (self.bounds.size.width>self.bounds.size.height) {
 		_referenceSide=self.bounds.size.width/2;
 	}else {
@@ -341,8 +341,8 @@
 	if (gestureRecognizer.state==UIGestureRecognizerStateBegan ||
 		gestureRecognizer.state==UIGestureRecognizerStateChanged) {
 		CGPoint translation=[gestureRecognizer translationInView:self];
-		float newHAngle = self.hAngle-(translation.x/(_zoomFactor/1.5));
-		float newVAngle = self.vAngle+(translation.y/(_zoomFactor/1.5));
+		CGFloat newHAngle = self.hAngle-(translation.x/(_zoomFactor/1.5));
+		CGFloat newVAngle = self.vAngle+(translation.y/(_zoomFactor/1.5));
 		if (newHAngle>0 && _rightLimit!=0) {
 			if (newHAngle>_rightLimit) {
 				newHAngle=_rightLimit;
@@ -387,7 +387,7 @@
 	}
 	if (gestureRecognizer.state==UIGestureRecognizerStateBegan ||
 		gestureRecognizer.state==UIGestureRecognizerStateChanged) {
-		float newFactor=_previousZoomFactor*gestureRecognizer.scale;
+		CGFloat newFactor=_previousZoomFactor*gestureRecognizer.scale;
         self.zoomFactor=newFactor;
         if (_delegate && _delegateDidZoom) {
             [_delegate panoViewDidZoom:self];

@@ -34,7 +34,7 @@
     hotspot1.backgroundColor=[UIColor clearColor];
     hotspot1.textColor=[UIColor redColor];
     hotspot1.text=@"DOOR";
-    hotspot1.textAlignment=UITextAlignmentCenter;
+    hotspot1.textAlignment=NSTextAlignmentCenter;
     [panoView addHotspot:hotspot1 atHAngle:0 vAngle:0];
     UIView *hotspot2=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
     hotspot2.backgroundColor=[UIColor yellowColor];
