@@ -7,9 +7,9 @@
 //
 
 #import "JAPanoView.h"
+#import <tgmath.h>
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
-
 
 @interface UIView (JAPanoViewHotspotPrivate)
 
@@ -20,19 +20,20 @@
 @end
 
 @interface JAPanoView() {
-    UIImageView *_image1,*_image2,*_image3,*_image4,*_image5,*_image6;
+	UIImageView *_image1,*_image2,*_image3,*_image4,*_image5,*_image6;
+	UIImageView *_imageOver1,*_imageOver2,*_imageOver3,*_imageOver4,*_imageOver5,*_imageOver6;
 	CGFloat _referenceSide;
 	CGFloat _previousZoomFactor;
-    NSMutableArray *_hotspots;
-    UIPanGestureRecognizer *_panGestureRecognizer;
-    UIPinchGestureRecognizer *_pinchGestureRecognizer;
-    //delegate
-    BOOL _delegateDidPan;
-    BOOL _delegateDidZoom;
-    BOOL _delegateBeginPan;
-    BOOL _delegateBeginZoom;
-    BOOL _delegateEndPan;
-    BOOL _delegateEndZoom;
+	NSMutableArray *_hotspots;
+	UIPanGestureRecognizer *_panGestureRecognizer;
+	UIPinchGestureRecognizer *_pinchGestureRecognizer;
+	//delegate
+	BOOL _delegateDidPan;
+	BOOL _delegateDidZoom;
+	BOOL _delegateBeginPan;
+	BOOL _delegateBeginZoom;
+	BOOL _delegateEndPan;
+	BOOL _delegateEndZoom;
 }
 
 - (void)defaultValues;
@@ -108,18 +109,27 @@
 }
 
 - (id)initWithFrame:(CGRect)frame {
-    
+    return [self initWithFrame:frame enableImageOver:NO];
+}
+
+- (id)initWithFrame:(CGRect)frame enableImageOver:(BOOL)enableImageOver {
     self = [super initWithFrame:frame];
     if (self) {
-		[self defaultValues];
+        [self defaultValues];
+        if (enableImageOver) [self defaultValuesForImageOver];
     }
     return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
+    return [self initWithCoder:aDecoder enableImageOver:NO];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder enableImageOver:(BOOL)enableImageOver {
     self=[super initWithCoder:aDecoder];
 	if (self) {
 		[self defaultValues];
+        if (enableImageOver) [self defaultValuesForImageOver];
 	}
 	return self;
 }
@@ -132,33 +142,37 @@
 		_referenceSide=self.bounds.size.height/2;
 	}
 	CGRect rect = CGRectMake(0, 0, _referenceSide*2, _referenceSide*2);
-	
+    CGPoint centerPoint=CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+    
 	// Initialization code.
-	_image1=[[UIImageView alloc] initWithFrame:rect];
-	_image2=[[UIImageView alloc] initWithFrame:rect];
-	_image3=[[UIImageView alloc] initWithFrame:rect];
-	_image4=[[UIImageView alloc] initWithFrame:rect];
-	_image5=[[UIImageView alloc] initWithFrame:rect];
-	_image6=[[UIImageView alloc] initWithFrame:rect];
-	CGPoint centerPoint=CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-	_image1.center=centerPoint;
-	_image2.center=centerPoint;
-	_image3.center=centerPoint;
-	_image4.center=centerPoint;
-	_image5.center=centerPoint;
-	_image6.center=centerPoint;
-	_image1.contentMode=UIViewContentModeScaleToFill;
-	_image2.contentMode=UIViewContentModeScaleToFill;
-	_image3.contentMode=UIViewContentModeScaleToFill;
-	_image4.contentMode=UIViewContentModeScaleToFill;
-	_image5.contentMode=UIViewContentModeScaleToFill;
-	_image6.contentMode=UIViewContentModeScaleToFill;
+	_image1 = [[UIImageView alloc] initWithFrame:rect];
+	_image2 = [[UIImageView alloc] initWithFrame:rect];
+	_image3 = [[UIImageView alloc] initWithFrame:rect];
+	_image4 = [[UIImageView alloc] initWithFrame:rect];
+	_image5 = [[UIImageView alloc] initWithFrame:rect];
+	_image6 = [[UIImageView alloc] initWithFrame:rect];
+    
+	_image1.center = centerPoint;
+	_image2.center = centerPoint;
+	_image3.center = centerPoint;
+	_image4.center = centerPoint;
+	_image5.center = centerPoint;
+	_image6.center = centerPoint;
+    
+	_image1.contentMode = UIViewContentModeScaleToFill;
+	_image2.contentMode = UIViewContentModeScaleToFill;
+	_image3.contentMode = UIViewContentModeScaleToFill;
+	_image4.contentMode = UIViewContentModeScaleToFill;
+	_image5.contentMode = UIViewContentModeScaleToFill;
+	_image6.contentMode = UIViewContentModeScaleToFill;
+    
 	[self addSubview:_image1];
 	[self addSubview:_image2];
 	[self addSubview:_image3];
 	[self addSubview:_image4];
 	[self addSubview:_image5];
 	[self addSubview:_image6];
+    
 	_zoomFactor=_referenceSide;
 	_hAngle=0;
 	_vAngle=0;
@@ -177,13 +191,59 @@
     _pinchGestureRecognizer=pinchGR;    
 }
 
-- (void)setFrontImage:(UIImage *)i1 rightImage:(UIImage *)i2 backImage:(UIImage *)i3 leftImage:(UIImage *)i4 topImage:(UIImage *)i5 bottomImage:(UIImage *)i6 {
-	_image1.image=i1;
-	_image2.image=i2;
-	_image3.image=i3;
-	_image4.image=i4;
-	_image5.image=i5;
-	_image6.image=i6;
+- (void)defaultValuesForImageOver {
+    CGRect rect = _image1.frame;
+    CGPoint centerPoint = _image1.center;
+    
+    _imageOver1 = [[UIImageView alloc] initWithFrame:rect];
+    _imageOver2 = [[UIImageView alloc] initWithFrame:rect];
+    _imageOver3 = [[UIImageView alloc] initWithFrame:rect];
+    _imageOver4 = [[UIImageView alloc] initWithFrame:rect];
+    _imageOver5 = [[UIImageView alloc] initWithFrame:rect];
+    _imageOver6 = [[UIImageView alloc] initWithFrame:rect];
+    
+    _imageOver1.center = centerPoint;
+    _imageOver2.center = centerPoint;
+    _imageOver3.center = centerPoint;
+    _imageOver4.center = centerPoint;
+    _imageOver5.center = centerPoint;
+    _imageOver6.center = centerPoint;
+    
+    _imageOver1.contentMode = UIViewContentModeScaleToFill;
+    _imageOver2.contentMode = UIViewContentModeScaleToFill;
+    _imageOver3.contentMode = UIViewContentModeScaleToFill;
+    _imageOver4.contentMode = UIViewContentModeScaleToFill;
+    _imageOver5.contentMode = UIViewContentModeScaleToFill;
+    _imageOver6.contentMode = UIViewContentModeScaleToFill;
+    
+    [self addSubview:_imageOver1];
+    [self addSubview:_imageOver2];
+    [self addSubview:_imageOver3];
+    [self addSubview:_imageOver4];
+    [self addSubview:_imageOver5];
+    [self addSubview:_imageOver6];
+    
+    [self setImageOverTransparancy:0];
+}
+
+- (void)setFrontImage:(UIImage *)i1 rightImage:(UIImage *)i2 backImage:(UIImage *)i3 leftImage:(UIImage *)i4 topImage:(UIImage *)i5 bottomImage:(UIImage *)i6
+{
+	_image1.image = i1;
+	_image2.image = i2;
+	_image3.image = i3;
+	_image4.image = i4;
+	_image5.image = i5;
+	_image6.image = i6;
+}
+
+-(void)setFrontImageOver:(UIImage *)i1 rightImageOver:(UIImage *)i2 backImageOver:(UIImage *)i3 leftImageOver:(UIImage *)i4 topImageOver:(UIImage *)i5 bottomImageOver:(UIImage *)i6
+{
+    _imageOver1.image = i1;
+    _imageOver2.image = i2;
+    _imageOver3.image = i3;
+    _imageOver4.image = i4;
+    _imageOver5.image = i5;
+    _imageOver6.image = i6;
 }
 
 - (void)render {
@@ -195,48 +255,52 @@
 	transform3D = CATransform3DIdentity;
     transform3D.m34 = 1 / -_zoomFactor;
 	transform3D=CATransform3DTranslate(transform3D,
-									   _referenceSide*sinf(-tempHAngle),
-									   -_referenceSide*cosf(-tempHAngle)*sinf(-tempVAngle),
-									   -(_referenceSide*cosf(-tempHAngle)*cosf(-tempVAngle)-_zoomFactor)
+									   _referenceSide*sin(-tempHAngle),
+									   -_referenceSide*cos(-tempHAngle)*sin(-tempVAngle),
+									   -(_referenceSide*cos(-tempHAngle)*cos(-tempVAngle)-_zoomFactor)
 									   );
 	transform3D=CATransform3DRotate(transform3D, tempHAngle, 0, 1, 0);
-	_image1.layer.transform=CATransform3DRotate(transform3D, tempVAngle, cosf(tempHAngle), 0, sinf(tempHAngle));
+    if (_imageOver1.image != nil) _imageOver1.layer.transform=CATransform3DRotate(transform3D, tempVAngle, cos(tempHAngle), 0, sin(tempHAngle));
+	_image1.layer.transform=CATransform3DRotate(transform3D, tempVAngle, cos(tempHAngle), 0, sin(tempHAngle));
     
 	tempHAngle=_hAngle-(M_PI/2);
 	tempVAngle=_vAngle;
 	transform3D = CATransform3DIdentity;
     transform3D.m34 = 1 / -_zoomFactor;
 	transform3D=CATransform3DTranslate(transform3D,
-									   _referenceSide*sinf(-tempHAngle),
-									   -_referenceSide*cosf(-tempHAngle)*sinf(-tempVAngle),
-									   -(_referenceSide*cosf(-tempHAngle)*cosf(-tempVAngle)-_zoomFactor)
+									   _referenceSide*sin(-tempHAngle),
+									   -_referenceSide*cos(-tempHAngle)*sin(-tempVAngle),
+									   -(_referenceSide*cos(-tempHAngle)*cos(-tempVAngle)-_zoomFactor)
 									   );
 	transform3D=CATransform3DRotate(transform3D, tempHAngle, 0, 1, 0);
-	_image2.layer.transform=CATransform3DRotate(transform3D, tempVAngle, cosf(tempHAngle), 0, sinf(tempHAngle));
+    if (_imageOver2.image != nil) _imageOver2.layer.transform=CATransform3DRotate(transform3D, tempVAngle, cos(tempHAngle), 0, sin(tempHAngle));
+	_image2.layer.transform=CATransform3DRotate(transform3D, tempVAngle, cos(tempHAngle), 0, sin(tempHAngle));
 	
 	tempHAngle=_hAngle-(M_PI);
 	tempVAngle=_vAngle;
 	transform3D = CATransform3DIdentity;
     transform3D.m34 = 1 / -_zoomFactor;
 	transform3D=CATransform3DTranslate(transform3D,
-									   _referenceSide*sinf(-tempHAngle),
-									   -_referenceSide*cosf(-tempHAngle)*sinf(-tempVAngle),
-									   -(_referenceSide*cosf(-tempHAngle)*cosf(-tempVAngle)-_zoomFactor)
+									   _referenceSide*sin(-tempHAngle),
+									   -_referenceSide*cos(-tempHAngle)*sin(-tempVAngle),
+									   -(_referenceSide*cos(-tempHAngle)*cos(-tempVAngle)-_zoomFactor)
 									   );
 	transform3D=CATransform3DRotate(transform3D, tempHAngle, 0, 1, 0);
-	_image3.layer.transform=CATransform3DRotate(transform3D, tempVAngle, cosf(tempHAngle), 0, sinf(tempHAngle));
-	
-	tempHAngle=_hAngle-(3*M_PI/2);
+    if (_imageOver3.image != nil) _imageOver3.layer.transform=CATransform3DRotate(transform3D, tempVAngle, cos(tempHAngle), 0, sin(tempHAngle));
+	_image3.layer.transform=CATransform3DRotate(transform3D, tempVAngle, cos(tempHAngle), 0, sin(tempHAngle));
+
+    tempHAngle=_hAngle-(3*M_PI/2);
 	tempVAngle=_vAngle;
 	transform3D = CATransform3DIdentity;
     transform3D.m34 = 1 / -_zoomFactor;
 	transform3D=CATransform3DTranslate(transform3D,
-									   _referenceSide*sinf(-tempHAngle),
-									   -_referenceSide*cosf(-tempHAngle)*sinf(-tempVAngle),
-									   -(_referenceSide*cosf(-tempHAngle)*cosf(-tempVAngle)-_zoomFactor)
+									   _referenceSide*sin(-tempHAngle),
+									   -_referenceSide*cos(-tempHAngle)*sin(-tempVAngle),
+									   -(_referenceSide*cos(-tempHAngle)*cos(-tempVAngle)-_zoomFactor)
 									   );
 	transform3D=CATransform3DRotate(transform3D, tempHAngle, 0, 1, 0);
-	_image4.layer.transform=CATransform3DRotate(transform3D, tempVAngle, cosf(tempHAngle), 0, sinf(tempHAngle));
+    if (_imageOver4.image != nil) _imageOver4.layer.transform=CATransform3DRotate(transform3D, tempVAngle, cos(tempHAngle), 0, sin(tempHAngle));
+	_image4.layer.transform=CATransform3DRotate(transform3D, tempVAngle, cos(tempHAngle), 0, sin(tempHAngle));
 	
 	tempHAngle=_hAngle;
 	tempVAngle=_vAngle-(M_PI/2);
@@ -244,34 +308,36 @@
     transform3D.m34 = 1 / -_zoomFactor;
 	transform3D=CATransform3DTranslate(transform3D,
 									   0,
-									   -_referenceSide*sinf(-tempVAngle),
-									   -(_referenceSide*cosf(-tempVAngle)-_zoomFactor)
+									   -_referenceSide*sin(-tempVAngle),
+									   -(_referenceSide*cos(-tempVAngle)-_zoomFactor)
 									   );
 	
 	transform3D=CATransform3DRotate(transform3D, tempVAngle, 1,0,0);
+    if (_imageOver5.image != nil) _imageOver5.layer.transform=CATransform3DRotate(transform3D, tempHAngle, 0, 0, 1);
 	_image5.layer.transform=CATransform3DRotate(transform3D, tempHAngle, 0, 0, 1);
-	
-	tempHAngle=_hAngle;
+    
+    tempHAngle=_hAngle;
 	tempVAngle=_vAngle+(M_PI/2);
 	transform3D = CATransform3DIdentity;
     transform3D.m34 = 1 / -_zoomFactor;
 	transform3D=CATransform3DTranslate(transform3D,
 									   0,
-									   -_referenceSide*sinf(-tempVAngle),
-									   -(_referenceSide*cosf(-tempVAngle)-_zoomFactor)
+									   -_referenceSide*sin(-tempVAngle),
+									   -(_referenceSide*cos(-tempVAngle)-_zoomFactor)
 									   );
 	
 	transform3D=CATransform3DRotate(transform3D, tempVAngle, 1,0,0);
+    if (_imageOver6.image != nil) _imageOver6.layer.transform=CATransform3DRotate(transform3D, -tempHAngle, 0, 0, 1);
 	_image6.layer.transform=CATransform3DRotate(transform3D, -tempHAngle, 0, 0, 1);
-    
+
     CGFloat hotspotReference=_referenceSide;
     for (UIView *hotspot in _hotspots) {
         tempHAngle=hotspot.hAngle;
         tempVAngle=hotspot.vAngle;
         
-        CGFloat x=sinf(tempHAngle)*cosf(tempVAngle);
-        CGFloat y=sinf(tempVAngle);
-        CGFloat z=cosf(tempVAngle)*cosf(tempHAngle);
+        CGFloat x=sin(tempHAngle)*cos(tempVAngle);
+        CGFloat y=sin(tempVAngle);
+        CGFloat z=cos(tempVAngle)*cos(tempHAngle);
         
         CGPoint transformedPoint=CGPointApplyAffineTransform(CGPointMake(x, z), CGAffineTransformMakeRotation(_hAngle));
         x=transformedPoint.x;
@@ -289,7 +355,7 @@
                                            );
         if (hotspot.shouldApplyPerspective) {
             transform3D=CATransform3DRotate(transform3D, _hAngle, 0, 1, 0);
-            transform3D=CATransform3DRotate(transform3D, _vAngle, cosf(_hAngle), 0, sinf(_hAngle));
+            transform3D=CATransform3DRotate(transform3D, _vAngle, cos(_hAngle), 0, sin(_hAngle));
             transform3D=CATransform3DRotate(transform3D, -hotspot.hAngle, 0, 1, 0);
             transform3D=CATransform3DRotate(transform3D, -hotspot.vAngle, 1, 0, 0);
         }
@@ -300,34 +366,59 @@
 }
 
 - (void)layoutSubviews {
-	CGFloat tempZoomFactor=self.zoomFactor;
-	if (self.bounds.size.width>self.bounds.size.height) {
-		_referenceSide=self.bounds.size.width/2;
+	CGFloat tempZoomFactor = self.zoomFactor;
+	if (self.bounds.size.width > self.bounds.size.height) {
+		_referenceSide = self.bounds.size.width/2;
 	}else {
-		_referenceSide=self.bounds.size.height/2;
+		_referenceSide = self.bounds.size.height/2;
 	}
 	//recalculate zoomFactor as a function of dim
 	self.zoomFactor=tempZoomFactor;
 	CGRect rect = CGRectMake(0, 0, _referenceSide*2, _referenceSide*2);
-	
-	// Initialization code.
-	_image1.frame=rect;
-	_image2.frame=rect;
-	_image3.frame=rect;
-	_image4.frame=rect;
-	_image5.frame=rect;
-	_image6.frame=rect;
-	CGPoint centerPoint=CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-	_image1.center=centerPoint;
-	_image2.center=centerPoint;
-	_image3.center=centerPoint;
-	_image4.center=centerPoint;
-	_image5.center=centerPoint;
-	_image6.center=centerPoint;
+    CGPoint centerPoint=CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+    
+    _image1.frame = rect;
+    _image2.frame = rect;
+    _image3.frame = rect;
+    _image4.frame = rect;
+    _image5.frame = rect;
+    _image6.frame = rect;
+    
+    _imageOver1.frame = rect;
+    _imageOver2.frame = rect;
+    _imageOver3.frame = rect;
+    _imageOver4.frame = rect;
+    _imageOver5.frame = rect;
+    _imageOver6.frame = rect;
+    
+    _image1.center = centerPoint;
+    _image2.center = centerPoint;
+    _image3.center = centerPoint;
+    _image4.center = centerPoint;
+    _image5.center = centerPoint;
+    _image6.center = centerPoint;
+    
+    _imageOver1.center = centerPoint;
+    _imageOver2.center = centerPoint;
+    _imageOver3.center = centerPoint;
+    _imageOver4.center = centerPoint;
+    _imageOver5.center = centerPoint;
+    _imageOver6.center = centerPoint;
+    
     for (UIView *hotspot in _hotspots) {
-        hotspot.center=centerPoint;
+        hotspot.center = centerPoint;
     }
 	[self render];
+}
+
+- (void)setImageOverTransparancy:(CGFloat)transparancyValue
+{
+    _imageOver1.alpha = transparancyValue;
+    _imageOver2.alpha = transparancyValue;
+    _imageOver3.alpha = transparancyValue;
+    _imageOver4.alpha = transparancyValue;
+    _imageOver5.alpha = transparancyValue;
+    _imageOver6.alpha = transparancyValue;
 }
 
 #pragma mark GestureRecognizers

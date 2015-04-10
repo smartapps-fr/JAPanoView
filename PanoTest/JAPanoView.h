@@ -20,10 +20,15 @@
 @property (nonatomic, getter = isPanEnabled) BOOL panEnabled;
 @property (nonatomic, getter = isZoomEnabled) BOOL zoomEnabled;
 @property (nonatomic, weak) id<JAPanoViewDelegate> delegate;
-
+    
 -(void)setFrontImage:(UIImage *)i1 rightImage:(UIImage *)i2 backImage:(UIImage *)i3 leftImage:(UIImage *)i4 topImage:(UIImage *)i5 bottomImage:(UIImage *)i6;
+-(void)setFrontImageOver:(UIImage *)i1 rightImageOver:(UIImage *)i2 backImageOver:(UIImage *)i3 leftImageOver:(UIImage *)i4 topImageOver:(UIImage *)i5 bottomImageOver:(UIImage *)i6;
 
 -(void)addHotspot:(UIView*)hotspotView atHAngle:(CGFloat)hAngle vAngle:(CGFloat)vAngle;
+
+-(void)setImageOverTransparancy:(CGFloat)transparancyValue;
+
+-(id)initWithFrame:(CGRect)frame enableImageOver:(BOOL)enableImageOver;
 
 @end
 
