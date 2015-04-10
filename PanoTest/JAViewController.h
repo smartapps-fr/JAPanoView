@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JAPanoView.h"
 
-@interface JAViewController : UIViewController
+@interface JAViewController : UIViewController <JAPanoViewDelegate>
+
+@property (nonatomic, copy) NSString *panoFileName;
 
 @end

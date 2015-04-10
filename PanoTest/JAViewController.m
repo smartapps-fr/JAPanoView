@@ -42,7 +42,7 @@
     hotspot3.shouldApplyPerspective=NO;
     [hotspot3 addTarget:self action:@selector(centerClouds:) forControlEvents:UIControlEventTouchUpInside];
     [panoView addHotspot:hotspot3 atHAngle:-M_PI_2 vAngle:M_PI_4];
-
+    
     
     UITapGestureRecognizer *tapgr=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
     [hotspot2 addGestureRecognizer:tapgr];
