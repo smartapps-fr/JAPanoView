@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "JAPanoView"
-  s.version      = "0.1.1"
+  s.version      = "0.1.2"
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "Javier Alonso" => "", "Damien Debin" => "damien.debin@gmail.com" }
   s.homepage     = "https://github.com/ddebin/JAPanoView"
