@@ -28,7 +28,13 @@
 
 -(void)setImageOverTransparancy:(CGFloat)transparancyValue;
 
--(id)initWithFrame:(CGRect)frame enableImageOver:(BOOL)enableImageOver;
+-(id)initWithFrame:(CGRect)frame enableImage:(BOOL)enableImage enableImageOver:(BOOL)enableImageOver;
+
+@property (nonatomic) BOOL autoPlayVideo;
+
+- (void)playVideo;
+- (void)pauseVideo;
+- (void)setFrontVideo:(NSURL *)v1 rightVideo:(NSURL *)v2 backVideo:(NSURL *)v3 leftVideo:(NSURL *)v4 topVideo:(NSURL *)v5 bottomVideo:(NSURL *)v6;
 
 @end
 

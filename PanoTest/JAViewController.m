@@ -19,12 +19,28 @@
 @implementation JAViewController
 
 - (void)loadView {
-    JAPanoView *panoView=[[JAPanoView alloc] initWithFrame:CGRectMake(0, 0, 768, 1024)];
-    self.view=panoView;
-    panoView.delegate=self;
-    [panoView setFrontImage:[UIImage imageNamed:@"TowerHousepano_f.jpg"] rightImage:[UIImage imageNamed:@"TowerHousepano_r.jpg"] backImage:[UIImage imageNamed:@"TowerHousepano_b.jpg"] leftImage:[UIImage imageNamed:@"TowerHousepano_l.jpg"] topImage:[UIImage imageNamed:@"TowerHousepano_u.jpg"] bottomImage:[UIImage imageNamed:@"Down_fixed.jpg"]];
+    CGRect frame = [[UIScreen mainScreen] bounds];
+    JAPanoView *panoView = [[JAPanoView alloc] initWithFrame:frame enableImage:YES enableImageOver:NO];
+    panoView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.view = panoView;
+    panoView.delegate = self;
+    panoView.zoomFactor = 1.25;
+    panoView.autoPlayVideo = YES;
+    [panoView setFrontImage:nil rightImage:[UIImage imageNamed:@"TowerHousepano_r.jpg"] backImage:[UIImage imageNamed:@"TowerHousepano_b.jpg"] leftImage:[UIImage imageNamed:@"TowerHousepano_l.jpg"] topImage:[UIImage imageNamed:@"TowerHousepano_u.jpg"] bottomImage:[UIImage imageNamed:@"Down_fixed.jpg"]];
+    [panoView setFrontVideo:[[NSBundle mainBundle] URLForResource:@"output_5" withExtension:@"mp4"]
+                 rightVideo:nil
+                  backVideo:nil
+                  leftVideo:nil
+                   topVideo:nil
+                bottomVideo:nil];
+    /*[panoView setFrontVideo:[[NSBundle mainBundle] URLForResource:@"output_5" withExtension:@"mp4"]
+                 rightVideo:[[NSBundle mainBundle] URLForResource:@"output_right" withExtension:@"mp4"]
+                  backVideo:[[NSBundle mainBundle] URLForResource:@"output_back" withExtension:@"mp4"]
+                  leftVideo:[[NSBundle mainBundle] URLForResource:@"output_left" withExtension:@"mp4"]
+                   topVideo:[[NSBundle mainBundle] URLForResource:@"output_top" withExtension:@"mp4"]
+                bottomVideo:[[NSBundle mainBundle] URLForResource:@"output_bottom" withExtension:@"mp4"]];*/
     
-    UILabel *hotspot1=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 25)];
+    /*UILabel *hotspot1=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 25)];
     hotspot1.backgroundColor=[UIColor clearColor];
     hotspot1.textColor=[UIColor redColor];
     hotspot1.text=@"DOOR";
@@ -45,7 +61,7 @@
     
     
     UITapGestureRecognizer *tapgr=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
-    [hotspot2 addGestureRecognizer:tapgr];
+    [hotspot2 addGestureRecognizer:tapgr];*/
 }
 
 - (void)tapped:(UITapGestureRecognizer *)tapGR {
@@ -56,13 +72,6 @@
 - (void)centerClouds:(id)sender {
     [(JAPanoView*)self.view setHAngle:-M_PI_2];
     [(JAPanoView*)self.view setVAngle:M_PI_4];
-}
-
-#pragma mark - View lifecycle
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return YES;
 }
 
 #pragma mark JAPanoViewDelegate
